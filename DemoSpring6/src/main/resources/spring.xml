@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    <bean id="lap" class="org.rugbedbugg.Laptop">
+        <!-- Setter Injection  used for late-bound/optional dependencies -->
+        <property name="manufacturedYear_var" value="1999" />
+
+        <!-- Constructor Injection  used for mandatory dependencies -->
+        <constructor-arg index="0" value="1999" />
+    </bean>
+
+    <bean id="desk" class="org.rugbedbugg.Desktop" primary="true">
+        <!-- Setter Injection  used for late-bound/optional dependencies -->
+        <property name="manufacturedYear_var" value="1898" />
+
+        <!-- Constructor Injection  used for mandatory dependencies -->
+        <constructor-arg index="0" value="1898" />
+    </bean>
+
+    <bean id="dev" class="org.rugbedbugg.Dev" autowire="byType">  <!-- this is the alternative of manual wiring: 2 options (byType, byName) -->
+        <!-- autowiring byName searches for the same bean id as the property name (ex: com_var) -->
+
+        <!-- autowiring byType searches for the same type as the property -->
+        <!-- incase of multiple candidates, it selects the one with primary="true" (line 16) -->
+
+        <!-- Setter Injection  used for late-bound/optional dependencies -->
+        <property name="age_var" value="10" />          <!-- In this example, property and constructor-arg are all redundant wrt e/o. i.e. we can remove either of them w/o effect  -->
+        <property name="salary_var" value="20000" />
+        <property name="com_var" ref="desk" />          <!-- this is manual wiring -->
+        <!-- ref can be either "desk" or "lap", the one mentioned will be wired -->
+
+        <!-- Constructor Injection  used for mandatory dependencies -->
+        <constructor-arg index="0" value="10" />
+        <constructor-arg index="1" value="20001" />  <!-- name can be used instead of index -->
+        <constructor-arg index="2" ref="desk" />
+        <!-- ref can be either "desk" or "lap", the one mentioned will be wired -->
+    </bean>
+
+    <bean id="dev1" class="org.rugbedbugg.Dev">
+        <!-- Setter Injection  used for late-bound/optional dependencies -->
+        <property name="age_var" value="10" />          <!-- In this example, property and constructor-arg are all redundant wrt e/o. i.e. we can remove either of them w/o effect  -->
+        <property name="salary_var" value="20000" />
+        <property name="com_var" ref="desk" />
+        <!-- ref can be either "desk" or "lap", the one mentioned will be wired -->
+
+        <!-- Constructor Injection  used for mandatory dependencies -->
+        <constructor-arg index="0" value="10" />
+        <constructor-arg index="1" value="20001" />
+        <constructor-arg index="2" ref="desk" />
+        <!-- ref can be either "desk" or "lap", the one mentioned will be wired -->
+    </bean>
+
+</beans>
+
